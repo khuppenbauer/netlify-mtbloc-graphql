@@ -1,0 +1,10 @@
+{
+  "name": "netlify-mtbloc-graphql",
+  "version": "1.0.0",
+  "author": "Kerstin Huppenbauer",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "build": "cd functions && npm install"
+  }
+}
