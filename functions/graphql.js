@@ -1,22 +1,16 @@
-const { ApolloServer, gql } = require('apollo-server-lambda')
+const { ApolloServer } = require('apollo-server-lambda');
+const typeDefs = require('./graphql/typedefs');
+const resolvers = require('./graphql/resolvers');
+const mongoDB = require('./graphql/mongodb');
 
-const typeDefs = gql`
-  type Query {
-    hello: String
-  }
-`
-
-const resolvers = {
-  Query: {
-    hello: (root, args, context) => {
-      return `Hello from Netlify function. https://bit.ly/2UXh0fD`
-    }
-  }
-}
-
-const server = new ApolloServer({
-  typeDefs,
-  resolvers
-})
-
-exports.handler = server.createHandler()
+exports.handler = async function(event, context) {
+  const db = await mongoDB();
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers: resolvers(db)
+  });
+  return new Promise((result, error) => {
+    const cb = (err, args) => (err ? error(err) : result(args));
+    server.createHandler()(event, context, cb);
+  });
+};
