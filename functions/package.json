@@ -4,6 +4,7 @@
   "author": "Kerstin Huppenbauer",
   "license": "MIT",
   "dependencies": {
+    "@sentry/serverless": "^5.30.0",
     "apollo-server-lambda": "^2.19.1",
     "dotenv": "^8.2.0",
     "graphql": "^15.4.0",
