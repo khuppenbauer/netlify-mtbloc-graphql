@@ -1,12 +1,15 @@
 const { gql } = require('apollo-server-lambda');
 
 module.exports = gql`
+  scalar JSON
+  
   type Query {
     allTracks: [Track]
+    track(_id: ID!): Track
   }
 
   type Track {
-    id: ID!
+    _id: ID!
     name: String!
     date: String
     foreignKey: String
@@ -38,6 +41,24 @@ module.exports = gql`
     visualization: String
     startTime: String
     endTime: String
+    geoJson: FeatureCollection
+  }
+
+  type FeatureCollection {
+    type: String
+    features: [Feature]
+  }
+
+  type Feature {
+    type: String
+    properties: JSON 
+    bbox: JSON
+    geometry: Geometry
+  }
+
+  type Geometry {
+    type: String
+    coordinates: JSON
   }
 
   type Point {
